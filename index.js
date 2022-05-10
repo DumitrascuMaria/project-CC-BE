@@ -1,9 +1,16 @@
 const express = require("express");
-const cors = require("cors");
+//const cors = require("cors");
+const bodyParser = require("body-parser");
+const questionsRouter = require("./router/questionsRouter");
+
 const app = express();
-app.use(cors());
+//app.use(cors());
 
 const port = process.env.PORT || 8080;
+
+app.use("/questions", questionsRouter);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
