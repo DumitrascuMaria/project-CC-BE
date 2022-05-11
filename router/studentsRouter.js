@@ -51,7 +51,7 @@ router.get("/:id", (req, res) => {
       return res.send(err);
     }
     if (results.length === 0) {
-      return res.status(404).send("Message not found.");
+      return res.status(404).send("Student not found.");
     }
     return res.json({
       data: results,
