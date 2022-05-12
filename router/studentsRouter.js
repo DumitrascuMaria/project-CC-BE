@@ -2,6 +2,7 @@ const express = require("express");
 const connection = require("../db.js");
 const router = express.Router();
 const mysql = require("mysql");
+const { sendMail } = require("./mailFunctions.js");
 
 router.get("/", (req, res) => {
   connection.query("SELECT * FROM students", (err, results) => {
@@ -112,6 +113,20 @@ router.put("/:id", (req, res) => {
       results,
     });
   });
+});
+
+router.post("/sendMail", async (req, res) => {
+  const { receiver, sender, subject, msg } = req.body;
+  if (!receiver || !sender || !subject || !msg) {
+    return res.status(400).send("Bad request. Missing parametres.");
+  }
+
+  try {
+    const sendMailResponse = await sendMail(receiver, sender, subject, msg);
+  } catch (err) {
+    console.log(err);
+    return res.send("Something went wrong");
+  }
 });
 
 module.exports = router;

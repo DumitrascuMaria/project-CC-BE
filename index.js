@@ -4,6 +4,14 @@ const bodyParser = require("body-parser");
 const questionsRouter = require("./router/questionsRouter");
 const studentsRouter = require("./router/studentsRouter");
 
+// const { sendMail } = require("./router/mailFunctions.js");
+// sendMail(
+//   "dumitrascusandra18@stud.ase.ro",
+//   "dumitrascusandra18@stud.ase.ro",
+//   "TestSubject",
+//   "TestMessage"
+// );
+
 const app = express();
 app.use(cors());
 
