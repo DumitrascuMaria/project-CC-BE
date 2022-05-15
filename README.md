@@ -20,19 +20,20 @@ Aplicația este utilizată în următorul mod: profesorul se autentifică și es
 
 3.	Descriere API
 Pentru generarea de mail-uri am folosit un API_KEY de SendGrid, care a fost obținută rapid prin generarea unui cont în platforma lor. În folderul de BE am creat un nou fisier js pentru tratarea funcției de trimitere de mail-uri, funcție care are ca parametri receiver-ul, sender-ul, subiectul mesajului și mesajul propriu-zis. Prin metoda post de mai jos am apelat funcția de trimitere a unui mail:
-router.post("/sendMail", async (req, res) => {
-  const { receiver, sender, subject, msg } = req.body;
-  if (!receiver || !sender || !subject || !msg) {
-    return res.status(400).send("Bad request. Missing parametres.");
-  }
 
-  try {
-    const sendMailResponse = await sendMail(receiver, sender, subject, msg);
-  } catch (err) {
-    console.log(err);
-    return res.send("Something went wrong");
-  }
-});
+		router.post("/sendMail", async (req, res) => {
+		  const { receiver, sender, subject, msg } = req.body;
+		  if (!receiver || !sender || !subject || !msg) {
+		    return res.status(400).send("Bad request. Missing parametres.");
+		  }
+
+		  try {
+		    const sendMailResponse = await sendMail(receiver, sender, subject, msg);
+		  } catch (err) {
+		    console.log(err);
+		    return res.send("Something went wrong");
+		  }
+		});
 
 În restul aplicației, am folosit următoarele rute: 
 app.use("/questions", questionsRouter);
@@ -44,32 +45,33 @@ app.use("/student", studentsRouter);
 •	Exemple de request / response
 
  Pe partea de FE am făcut un request pentru a obține toate întrebările din baza de date 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get(
-        `${process.env.REACT_APP_API_URL}/questions`
-      );
+ 
+	  useEffect(() => {
+	    const fetchData = async () => {
+	      const result = await axios.get(
+		`${process.env.REACT_APP_API_URL}/questions`
+	      );
 
-      if (result.data.data) {
-        let questionsArray = result.data.data;
-        questionsArray.reverse();
-        setQuestions(result.data.data);
-      }
-    };
+	      if (result.data.data) {
+		let questionsArray = result.data.data;
+		questionsArray.reverse();
+		setQuestions(result.data.data);
+	      }
+	    };
 
 Pe partea de BE am tratat request-ul și am returnat datele din baza de date, dacă totul era în regulă.
 
-router.get("/", (req, res) => {
-  connection.query("SELECT * FROM questions", (err, results) => {
-    if (err) {
-      return res.send(err);
-    }
+	router.get("/", (req, res) => {
+	  connection.query("SELECT * FROM questions", (err, results) => {
+	    if (err) {
+	      return res.send(err);
+	    }
 
-    return res.json({
-      data: results,
-    });
-  });
-});
+	    return res.json({
+	      data: results,
+	    });
+	  });
+	});
 
 •	Metode HTTP
 
